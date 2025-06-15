@@ -8,18 +8,46 @@ import { useUser } from '@clerk/nextjs';
 import { StreamCall, StreamTheme } from '@stream-io/video-react-sdk';
 import React, { useState } from 'react'
 
-const Meeting = ({
-  params: { id }
-}: {
-  params: { id: string };
-}) => {
+// const Meeting = ({
+//   params: { id }
+// }: {
+//   params: { id: string };
+// }) => {
 
+//   const { user, isLoaded } = useUser();
+//   const [isSetupComplete, setIsSetupComplete] = useState(false)
+//   const { call, isCallLoading } = useGetCallById(id);
+
+//   if (!isLoaded || isCallLoading) return <Loader />
+//   // const { id: resolvedId } = React.use(params);
+//   return (
+//     <main className='h-screen w-full'>
+//       <StreamCall call={call}>
+//         <StreamTheme>
+//           {!isSetupComplete ? (
+//             <MeetingSetup setIsSetupComplete={setIsSetupComplete} />
+//           ) : (
+//             <MeetingRoom />
+//           )}
+//         </StreamTheme>
+//       </StreamCall>
+
+//     </main>
+//   )
+// }
+
+interface MeetingProps {
+  id: string;
+  sortOrder: string;
+}
+
+const Meeting = ({ id, sortOrder }: MeetingProps) => {
   const { user, isLoaded } = useUser();
-  const [isSetupComplete, setIsSetupComplete] = useState(false)
+  const [isSetupComplete, setIsSetupComplete] = useState(false);
   const { call, isCallLoading } = useGetCallById(id);
 
-  if (!isLoaded || isCallLoading) return <Loader />
-  // const { id: resolvedId } = React.use(params);
+  if (!isLoaded || isCallLoading) return <Loader />;
+
   return (
     <main className='h-screen w-full'>
       <StreamCall call={call}>
@@ -27,13 +55,18 @@ const Meeting = ({
           {!isSetupComplete ? (
             <MeetingSetup setIsSetupComplete={setIsSetupComplete} />
           ) : (
-            <MeetingRoom />
+            <>
+              <div className='text-center mt-2 text-sm text-gray-500'>
+                Current sort order: <strong>{sortOrder}</strong>
+              </div>
+              <MeetingRoom sortOrder={sortOrder} />
+            </>
           )}
         </StreamTheme>
       </StreamCall>
-
     </main>
-  )
-}
+  );
+};
+
 export default Meeting;
 

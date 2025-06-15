@@ -16,7 +16,7 @@ import Loader from './Loader'
 
 type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
 
-const MeetingRoom = () => {
+const MeetingRoom = ({ sortOrder }: { sortOrder: string }) => {
     const SearchParams = useSearchParams();
     const isPersonalRoom = !!SearchParams.get('personal')
 
